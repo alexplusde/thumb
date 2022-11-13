@@ -1,13 +1,13 @@
 <?php
 class thumb
 {
-    public function setConfig(?string $key, $value = null) :void
+    public static function setConfig(?string $key, $value = null) :void
     {
         rex_config::set('thumb', $key, $value);
     }
-    public function getConfig(?string $key) :string
+    public static function getConfig(?string $key) :string
     {
-        rex_config::get('thumb', $key);
+        return rex_config::get('thumb', $key);
     }
 
     public static function getImgUrl($url)
@@ -21,7 +21,7 @@ class thumb
             }
         }
 
-        return rex_path::frontend('/media/'.self::getConfig('media_manager_profile').'/'.self::generateFilename($url));
+        return rex_url::media(self::getConfig('media_manager_profile').'/'.self::generateFilename($url));
     }
 
     private static function getImgFromHtciApi($url)
