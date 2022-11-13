@@ -7,4 +7,7 @@ stellenangebote_docs = Hilfe
 # Konfigurationsformulare
 thumb_config = Einstellungen
 thumb_config_hcti_api_key_label = HTCI API-Schlüssel
-thumb_config_hcti_api_key_notice = 
+thumb_config_hcti_api_key_notice = https://hcti.io/
+
+thumb_config_hcti_api_key_label = H2IN API-Schlüssel
+thumb_config_hcti_api_key_notice = https://www.html2image.net/

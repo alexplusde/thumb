@@ -40,6 +40,22 @@ class thumb
             dump($e->getMessage());
         }
     }
+    public static function getImgFromH2inApi($url)
+    {
+        try {
+            $socket = rex_socket::factory('www.html2image.net/', 443, true);
+            $socket->setPath('/api/api.php?key='.self::getConfig('h2in_api_key').'&source='.$url.'&type=png&width=1200&height=600');
+            
+            $response = $socket->doGet();
+
+            if ($response->isOk()) {
+                $body = $response->getBody();
+                self::saveImg($body['url'], 'filename.png');
+            }
+        } catch(rex_socket_exception $e) {
+            dump($e->getMessage());
+        }
+    }
 
     private static function saveImg($url, $filename) :void
     {
