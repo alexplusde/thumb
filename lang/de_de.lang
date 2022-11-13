@@ -1,16 +1,10 @@
-blaupause_title: Blaupause
+thumb_title = Meta-Bild
 
-stellenangebote_table = Blaupause
+stellenangebote_table = thumb
 stellenangebote_settings Einstellungen
 stellenangebote_docs = Hilfe
 
-# FriendsOfREDAXO-Addons können bei YTraduco zur Übersetzung eingereicht werden
-
 # Konfigurationsformulare
-blaupause_config = Einstellungen
-blaupause_config_mytextfield_label = Test-Feld
-blaupause_config_mytextfield_notice = Notiz, die etwas erklärt und bspw. einen Standardwert nennt. Hier: <code>Test</code>
-
-# YForm Tablelen-Übersetzung
-blaupause_table_name_label = Name
-blaupause_table_name_notice = Notiz, die etwas erklärt und auch einen Beispielwert nennen kann, z.B.: <code>Mein Name</code> 
+thumb_config = Einstellungen
+thumb_config_hcti_api_key_label = HTCI API-Schlüssel
+thumb_config_hcti_api_key_notice = 
