@@ -10,15 +10,21 @@ class thumb
         rex_config::get('thumb', $key);
     }
 
-    public static function getImgUrl(?string $slug = null) :string
+    public static function getImgUrl($url)
     {
-        return '/?rex-api=thumb&article_id=1&clang_id=0&slug='.rex_string::normalize($slug);
-    }
-    public static function getImg(?int $article_id, ?int $clang_id = 0)
-    {
+        $file = rex_file::get(rex_path::addonData('thumb', self::generateFilename($url)));
+        if (null === $file) {
+            if (self::getConfig('api') == "htci") {
+                self::getImgFromHtciApi($url);
+            } elseif (self::getConfig('api') == "h2in") {
+                self::getImgFromH2inApi($url);
+            }
+        }
+
+        return rex_path::frontend('/media/thumb/'.self::generateFilename($url));
     }
 
-    public static function getImgFromHtciApi($url)
+    private static function getImgFromHtciApi($url)
     {
         try {
             $socket = rex_socket::factory('hcti.io', 443, true);
@@ -34,13 +40,13 @@ class thumb
 
             if ($response->isOk()) {
                 $body = $response->getBody();
-                self::saveImg($body['url'], 'filename.png');
+                self::saveImg($body['url']);
             }
         } catch(rex_socket_exception $e) {
             dump($e->getMessage());
         }
     }
-    public static function getImgFromH2inApi($url)
+    private static function getImgFromH2inApi($url)
     {
         try {
             $socket = rex_socket::factory('www.html2image.net/', 443, true);
@@ -50,16 +56,19 @@ class thumb
 
             if ($response->isOk()) {
                 $body = $response->getBody();
-                self::saveImg($body['url'], 'filename.png');
+                self::saveImg($body['url']);
             }
         } catch(rex_socket_exception $e) {
             dump($e->getMessage());
         }
     }
-
-    private static function saveImg($url, $filename) :void
+    private static function saveImg($url) :void
     {
-        $image = rex_socket::factoryUrl($url, $filename)->doGet();
-        $image->writeBodyTo(rex_path::addonCache('thumb', $filename));
+        $image = rex_socket::factoryUrl($url)->doGet();
+        $image->writeBodyTo(rex_path::addonCache('thumb', self::generateFilename($url)));
+    }
+    private static function generateFilename(?string $url) :string
+    {
+        return md5($url);
     }
 }
