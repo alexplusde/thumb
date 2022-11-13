@@ -21,7 +21,7 @@ class thumb
             }
         }
 
-        return rex_path::frontend('/media/thumb/'.self::generateFilename($url));
+        return rex_path::frontend('/media/'.self::getConfig('media_manager_profile').'/'.self::generateFilename($url));
     }
 
     private static function getImgFromHtciApi($url)

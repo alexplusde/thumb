@@ -18,6 +18,10 @@ $field = $form->addInputField('text', 'h2in_api_key', null, ["class" => "form-co
 $field->setLabel(rex_i18n::msg('thumb_config_h2in_api_key_label'));
 $field->setNotice(rex_i18n::msg('thumb_config_h2in_api_key_notice'));
 
+$field = $form->addInputField('text', 'media_manager_profile', null, ["class" => "form-control"]);
+$field->setLabel(rex_i18n::msg('thumb_config_media_manager_profile_label'));
+$field->setNotice(rex_i18n::msg('thumb_config_media_manager_profile_notice'));
+
 $fragment = new rex_fragment();
 $fragment->setVar('class', 'edit', false);
 $fragment->setVar('title', $addon->i18n('thumb_config'), false);

@@ -11,3 +11,6 @@ thumb_config_hcti_api_key_notice = https://hcti.io/
 
 thumb_config_hcti_api_key_label = H2IN API-Schlüssel
 thumb_config_hcti_api_key_notice = https://www.html2image.net/
+
+thumb_config_media_manager_profile_label = Medien-Manager-Profil
+thumb_config_media_manager_profile_notice = Profil mit dem Pfad zum Cache-Verzeichnis <code>/redaxo/cache/addons/thumb/</code>
