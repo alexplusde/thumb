@@ -10,6 +10,10 @@
 	<link rel="apple-touch-icon" href="icon.png">
 
 	<style>
+		* {
+			font-family: sans-serif;
+		}
+
 		body {
 			padding: 0;
 			margin: 0;
@@ -31,6 +35,22 @@
 			background-scale: cover;
 		}
 
+		.favicon {
+			left: 80px;
+			top: 80px;
+			width: 60px;
+			height: 60px;
+		}
+
+		.servername {
+			left: 160px;
+			top: 80px;
+			width: 620px;
+			height: 60px;
+			color: #666;
+			font-size: 40px;
+		}
+
 		.title {
 			left: 80px;
 			top: 160px;
@@ -40,13 +60,6 @@
 			font-weight: bold;
 			line-height: 1.2;
 			color: #1A1A1A;
-		}
-
-		.favicon {
-			left: 80px;
-			top: 80px;
-			width: 60px;
-			height: 60px;
 		}
 
 		.image {
@@ -62,6 +75,8 @@
 			width: 1040px;
 			height: 120px;
 			color: #666;
+			line-height: 1.2;
+			font-size: 40px;
 		}
 
 		.domain {
@@ -70,6 +85,7 @@
 			width: 1040px;
 			height: 40px;
 			color: #666;
+			font-size: 40px;
 		}
 	</style>
 
