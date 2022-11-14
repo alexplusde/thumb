@@ -18,6 +18,7 @@
 			width: 1200px;
 			height: 600px;
 			position: relative;
+			background: cover;
 		}
 
 		main>div {
@@ -88,7 +89,8 @@
 
 <body>
 	<?php $article = rex_article::getCurrent(); ?>
-	<main>
+	<main
+		style="background: <?= rex_url::media(thumb::getConfig('background_image')) ?>">
 		<div class="img favicon"
 			style="background: <?= $this->getVar('favicon') ?? rex::getServer() . '/favicon.ico'  ?>">
 		</div>
@@ -102,7 +104,7 @@
 			<?= $this->getVar('description') ?? ''; ?>
 		</div>
 		<div class="img image"
-			style="background: <?= $this->getVar('image') ?? thumb::getConfig('image') ?>">
+			style="background: <?= $this->getVar('image') ?? '' ?>">
 		</div>
 		<div class="domain">
 			<?= $this->getVar('domain') ?? rex::getServer(); ?>

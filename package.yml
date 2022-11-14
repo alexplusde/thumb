@@ -1,5 +1,5 @@
 package: thumb
-version: '0.0.2-dev'
+version: '0.0.3-dev'
 author: 'Alexander Walther'
 supportpage: https://github.com/alexplusde/thumb
 
@@ -32,4 +32,4 @@ default_config:
     hcti_api_key: ''
     h2in_api_key: ''
     media_manager_profile: 'thumb'
-    default_image: ''
+    background_image: 'thumb_bg.png'

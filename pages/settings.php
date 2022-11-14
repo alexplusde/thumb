@@ -27,7 +27,7 @@ $field = $form->addInputField('text', 'media_manager_profile', null, ["class" =>
 $field->setLabel(rex_i18n::msg('thumb_config_media_manager_profile_label'));
 $field->setNotice(rex_i18n::msg('thumb_config_media_manager_profile_notice'));
 
-$field = $form->addMediaField('default_image');
+$field = $form->addMediaField('background_image');
 $field->setPreview(1);
 // Legt die erlaubten Typen fest
 $field->setTypes('jpg,gif,png,svg');
