@@ -70,8 +70,8 @@
 		}
 
 		.description {
-			left: 800px;
-			top: 80px;
+			left: 80px;
+			top: 800px;
 			width: 1040px;
 			height: 120px;
 			color: #666;
@@ -91,23 +91,26 @@
 
 </head>
 
-
 <body>
+	<?php $article = rex_article::getCurrent(); ?>
 	<main>
 		<div class="img favicon"
-			style="background: <?= $this->getVar('favicon') ?>">
+			style="background: <?= $this->getVar('favicon') ?? rex::getServer() . '/favicon.ico'  ?>">
 		</div>
 		<div class="servername">
-			<?= $this->getVar('servername') ?>
+			<?= $this->getVar('servername') ?? rex::getServerName() ?>
 		</div>
 		<div class="title">
-			<?= $this->getVar('title') ?>
+			<?= $this->getVar('title') ?? $article->getName(); ?>
+		</div>
+		<div class="description">
+			<?= $this->getVar('description') ?? ''; ?>
 		</div>
 		<div class="img image"
-			style="background: <?= $this->getVar('image') ?>">
+			style="background: <?= $this->getVar('image') ?? thumb::getConfig('image') ?>">
 		</div>
 		<div class="domain">
-			<?= $this->getVar('domain') ?>
+			<?= $this->getVar('domain') ?? rex::getServer(); ?>
 		</div>
 	</main>
 </body>

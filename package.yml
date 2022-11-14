@@ -27,7 +27,8 @@ pages:
         perm: thumb[docs]
 
 default_config:
+    api: 'hcti'
+    hcti_username: ''
     hcti_api_key: ''
     h2in_api_key: ''
-    api: 'hcti'
     media_manager_profile: 'thumb'

@@ -10,6 +10,10 @@ $select = $field->getSelect();
 $select->addOption('hc2i.io', 'hc2i');
 $select->addOption('html2image.net', 'h2in');
 
+$field = $form->addInputField('text', 'hcti_username', null, ["class" => "form-control"]);
+$field->setLabel(rex_i18n::msg('thumb_config_hcti_username_label'));
+$field->setNotice(rex_i18n::msg('thumb_config_hcti_username_notice'));
+
 $field = $form->addInputField('text', 'hcti_api_key', null, ["class" => "form-control"]);
 $field->setLabel(rex_i18n::msg('thumb_config_hcti_api_key_label'));
 $field->setNotice(rex_i18n::msg('thumb_config_hcti_api_key_notice'));
