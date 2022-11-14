@@ -16,8 +16,8 @@ Generiert Vorschau-Bilder für Messenger, Soziale Medien, E-Mail-Clients (og:ima
 Übergebe der Methode `thumb::getUrl()` die gewünschte URL (z.B. die des aktuellen Artikels), zu der ein Bild generiert werden soll und erhalte als Rückgabewert einen Media-Manager-Pfad:
 
 ```php
-<?php $file = thumb::getUrl(rex_getUrl()); ?>
-<meta property="og:image" content="<?= $file ?>"/>
+<?php $og_image_url = thumb::getUrl(rex_getUrl()); ?>
+<meta property="og:image" content="<?= $og_image_url ?>"/>
 ```
 
 ergibt
