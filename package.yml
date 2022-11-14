@@ -16,7 +16,7 @@ page:
 
 pages:
     settings:
-        title: translate:thumb_settings
+        title: translate:thumb_config
         icon: rex-icon fa-gear
         perm: thumb
     docs:
@@ -32,3 +32,4 @@ default_config:
     hcti_api_key: ''
     h2in_api_key: ''
     media_manager_profile: 'thumb'
+    default_image: ''

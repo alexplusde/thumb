@@ -4,7 +4,6 @@ stellenangebote_table = thumb
 stellenangebote_settings = Einstellungen
 stellenangebote_docs = Hilfe
 
-# Konfigurationsformulare
 thumb_config = Einstellungen
 
 thumb_config_hcti_username_label = HTCI-Username
