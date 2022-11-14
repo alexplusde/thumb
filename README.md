@@ -6,8 +6,7 @@ Generiert Vorschau-Bilder für Messenger, Soziale Medien, E-Mail-Clients (og:ima
 
 * Erstellt Vorschau-Bilder anhand der Informationen, die in REDAXO hinterlegt sind
 * Mitgelieferte Fragemente in HTML und SVG für einen einfachen Einstieg
-* Mehrsprachigkeit: Berücksichtigt CLANG
-* Geplant: Caching der Bilder für DSGVO-konformen Abruf von Vorschaubildern und Zwischenspeichern, um API-Abrufe zu reduzieren.
+* Caching der Bilder für DSGVO-konformen Abruf von Vorschaubildern und Zwischenspeichern, um API-Abrufe zu reduzieren.
 * Geplant: Kompatibel zu YRewrite - Verwendet das SEO-Bild von YRewrite, wenn nötig.
 * Geplant: Kompatibel zu URL - Verwendet Titel und SEO-Bild von URL-Profilen, wenn nötig.
 
@@ -16,8 +15,8 @@ Generiert Vorschau-Bilder für Messenger, Soziale Medien, E-Mail-Clients (og:ima
 Übergebe der Methode `thumb::getUrl()` die gewünschte URL (z.B. die des aktuellen Artikels), zu der ein Bild generiert werden soll und erhalte als Rückgabewert einen Media-Manager-Pfad:
 
 ```php
-<?php $file = thumb::getUrl(rex_getUrl()); ?>
-<meta property="og:image" content="<?= $file ?>"/>
+<?php $og_image_url = thumb::getUrl(rex_getUrl()); ?>
+<meta property="og:image" content="<?= $og_image_url ?>"/>
 ```
 
 ergibt
