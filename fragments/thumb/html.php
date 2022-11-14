@@ -4,11 +4,6 @@
 	<meta charset="utf-8">
 	<title></title>
 	<meta name="viewport" content="width=1200, height=600, initial-scale=1">
-
-	<link rel="icon" href="/favicon.ico" sizes="any">
-	<link rel="icon" href="/icon.svg" type="image/svg+xml">
-	<link rel="apple-touch-icon" href="icon.png">
-
 	<style>
 		* {
 			font-family: sans-serif;
