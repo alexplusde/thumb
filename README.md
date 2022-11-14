@@ -2,6 +2,8 @@
 
 Generiert Vorschau-Bilder für Messenger, Soziale Medien, E-Mail-Clients (og:image). HTCI-API-Schlüssel erforderlich.
 
+![example](https://user-images.githubusercontent.com/3855487/201556485-b0bd24e1-8c04-43cb-8174-9e99f6ea9ea1.png)
+
 ## Features
 
 * Erstellt Vorschau-Bilder anhand der Informationen, die in REDAXO hinterlegt sind
