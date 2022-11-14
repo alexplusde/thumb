@@ -1,8 +1,7 @@
 thumb_title = Meta-Bild
 
-stellenangebote_table = thumb
-stellenangebote_settings = Einstellungen
-stellenangebote_docs = Hilfe
+thumb_settings = Einstellungen
+thumb_docs = Hilfe
 
 thumb_config = Einstellungen
 
