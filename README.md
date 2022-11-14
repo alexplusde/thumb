@@ -1,4 +1,4 @@
-# Thumb
+# Thumb: Generiert nützliche OpenGraph-Bilder für REDAXO-Seiten
 
 Generiert Vorschau-Bilder für Messenger, Soziale Medien, E-Mail-Clients (og:image). HTCI-API-Schlüssel erforderlich.
 
