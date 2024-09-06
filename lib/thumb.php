@@ -27,8 +27,12 @@ class Thumb
         return rex_config::get('thumb', $key);
     }
 
-    public static function getThumbUrl(?string $url) :string
+    public static function getThumbUrl(string $url = null) :string
     {
+        if (null === $url) {
+            $url = \rex_article::getCurrent()->getUrl();
+        }
+
         $file = rex_file::get(rex_path::addonData('thumb', self::generateFilename($url)));
 
         if (null === $file) {
@@ -112,29 +116,21 @@ class Thumb
     {
         return md5($url).$extension;
     }
-
-    public static function epArtUpdated($ep)
+    public static function epStructureUpdated($ep)
     {
         $params = $ep->getParams();
-        // rex_file::delete(rex_path::addonData('thumb', self::generateFilename($params['article']->getUrl())));
-    }
-    public static function epCatUpdated($ep)
-    {
-        $params = $ep->getParams();
-        // rex_file::deleteEpUrlSeoTagsddonData('thumb', self::generateFilename($params['category']->getUrl())));
+        $url = rex_getUrl($params['id']);
+        rex_file::delete(rex_path::addonData('thumb', self::generateFilename($url)));
     }
     public static function EpSeoTags($ep)
     {
-        /* Zum Debuggen: OutputFilter leeren / flushen, um dump() sehen zu können */
-        // ob_end_clean();
-
         /* Grundvoraussetzungen */
         $article = \rex_article::getCurrent();
         $domain = \rex_yrewrite::getDomainByArticleId($article->getId());
         $website = $domain->getTitle();
         $fragment = new rex_fragment();
         $tags = $ep->getSubject();
-        $title = strip_tags($tags['title']);
+        $title = strip_tags($article->getName());
         $description = $article->getValue('yrewrite_description');
         $image = $article->getValue('yrewrite_image');
         $media = null;
@@ -147,6 +143,7 @@ class Thumb
         if ($background_image) {
             $background_media = \rex_media::get($background_image);
         }
+        $url = $article->getUrl();
 
         /* URL-Addon übertrumpft YRewrite */
         $manager = Url::resolveCurrent();
@@ -160,12 +157,16 @@ class Thumb
             if($manager->getSeoDescription()) {
                 $description = $manager->getSeoDescription();
             }
+            if($manager->getValue('url')) {
+                $url = $manager->getValue('url');
+            }
         }
 
-        $result = '';
+        $thumb_template = '';
         $fragment->setVar('title', $title, false);
         $fragment->setVar('description', $description, false);
-        $fragment->setVar('url', $manager->getValue('url'), false);
+
+        $fragment->setVar('url', $url, false);
 
         if($media) {
             $fragment->setVar('image', $media->getUrl(), false);
@@ -175,10 +176,10 @@ class Thumb
         }
         $fragment->setVar('website', $website, false);
         if(self::getConfig('fragment')) {
-            $result = $fragment->parse(self::getConfig('fragment'));
+            $thumb_template = $fragment->parse(self::getConfig('fragment'));
         }
 
-        $og_image_url = self::getImgFromApi($result, $manager->getValue('url'));
+        $og_image_url = self::getImgFromApi($thumb_template, $url);
 
         $tags['og:image'] = '<meta property="og:image" content="'.$og_image_url.'" />';
         $tags['og:image:width'] = '<meta property="og:image:width" content="'.self::WIDTH.'" />';
