@@ -100,7 +100,7 @@ $background_image = 'data:image/png;base64,' . base64_encode($data);
 			style="background: <?= $this->getVar('favicon') ?? rex::getServer() . '/favicon.ico'  ?>">
 		</div>
 		<div class="servername">
-			<?= $this->getVar('servername') ?? rex::getServerName() ?>
+			<?= $this->getVar('website') ?? rex::getServerName() ?>
 		</div>
 		<div class="title">
 			<?= $this->getVar('title') ?? $article->getName(); ?>
