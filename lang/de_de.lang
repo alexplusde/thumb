@@ -1,6 +1,7 @@
 thumb_title = Meta-Bild
 
 thumb_settings = Einstellungen
+thumb_history = Zuletzt generiert
 thumb_docs = Hilfe
 
 thumb_config = Einstellungen
@@ -11,7 +12,7 @@ thumb_config_hcti_username_notice = https://hcti.io/
 thumb_config_hcti_api_key_label = HCTI API-Schlüssel
 thumb_config_hcti_api_key_notice = https://hcti.io/
 
-
+thumb_config_fragment_label = HTML oder SVG?
 
 thumb_config_h2in_api_key_label = H2IN API-Schlüssel
 thumb_config_h2in_api_key_notice = https://www.html2image.net/
