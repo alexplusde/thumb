@@ -22,9 +22,18 @@ $field = $form->addInputField('text', 'h2in_api_key', null, ["class" => "form-co
 $field->setLabel(rex_i18n::msg('thumb_config_h2in_api_key_label'));
 $field->setNotice(rex_i18n::msg('thumb_config_h2in_api_key_notice'));
 
-/* To Do: Select-Feld anbieten */
-$field = $form->addInputField('text', 'media_manager_profile', null, ["class" => "form-control"]);
+$field = $form->addSelectField('media_manager_profile', $value = null, ['class'=>'form-control selectpicker']);
 $field->setLabel(rex_i18n::msg('thumb_config_media_manager_profile_label'));
+$select = $field->getSelect();
+
+// Get available media manager profiles
+$query = 'SELECT id, status, name FROM ' . rex::getTablePrefix() . 'media_manager_type ORDER BY status, name';
+
+$profiles = rex_sql::factory()->getArray($query);
+foreach ($profiles as $profile) {
+    $select->addOption($profile['name'], $profile['id']);
+}
+
 $field->setNotice(rex_i18n::msg('thumb_config_media_manager_profile_notice'));
 
 $field = $form->addMediaField('background_image');
