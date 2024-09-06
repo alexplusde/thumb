@@ -24,17 +24,23 @@ $field->setNotice(rex_i18n::msg('thumb_config_h2in_api_key_notice'));
 
 $field = $form->addSelectField('media_manager_profile', $value = null, ['class'=>'form-control selectpicker']);
 $field->setLabel(rex_i18n::msg('thumb_config_media_manager_profile_label'));
+$field->setNotice(rex_i18n::msg('thumb_config_media_manager_profile_notice'));
 $select = $field->getSelect();
-
 // Get available media manager profiles
 $query = 'SELECT id, status, name FROM ' . rex::getTablePrefix() . 'media_manager_type ORDER BY status, name';
 
 $profiles = rex_sql::factory()->getArray($query);
 foreach ($profiles as $profile) {
-    $select->addOption($profile['name'], $profile['id']);
+    $select->addOption($profile['name'], $profile['name']);
 }
 
-$field->setNotice(rex_i18n::msg('thumb_config_media_manager_profile_notice'));
+/* Select Fragment html.php or svg.php */
+$field = $form->addSelectField('fragment', $value = null, ['class'=>'form-control']);
+$field->setLabel(rex_i18n::msg('thumb_config_fragment_label'));
+$select = $field->getSelect();
+$select->addOption('thumb/html.php', 'thumb/html.php');
+$select->addOption('thumb/svg.php', 'thumb/svg.php');
+
 
 $field = $form->addMediaField('background_image');
 $field->setPreview(1);
