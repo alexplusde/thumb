@@ -183,12 +183,23 @@ class Thumb
     {
         return md5($url).$extension;
     }
-    public static function epStructureUpdated($ep) :void
+
+    /**
+     * @api
+     * @param \rex_extension_point $ep
+     * @return void
+     */
+    public static function epStructureUpdated(\rex_extension_point $ep) :void
     {
         $params = $ep->getParams();
         $url = rex_getUrl($params['id']);
         rex_file::delete(rex_path::addonData('thumb', self::generateFilename($url)));
     }
+    /**
+     * @api
+     * @param \rex_extension_point $ep
+     * @return void
+     */
     public static function EpSeoTags(\rex_extension_point $ep) :void
     {
         /* Grundvoraussetzungen */
@@ -217,7 +228,6 @@ class Thumb
         /* URL-Addon übertrumpft YRewrite */
         $manager = Url::resolveCurrent();
         if ($manager instanceof \Url\UrlManager) {
-            // $seo = $manager->getSeo();
 
             if ($manager->getSeoTitle() !== '') {
                 $title = $manager->getSeoTitle();
