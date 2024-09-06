@@ -6,10 +6,10 @@ supportpage: https://github.com/alexplusde/thumb
 
 requires:
     php:
-        version: '>8.1,<9'
-    redaxo: ^5.17
-    media_manager: ">1.0.0"
-    yrewrite: ">2.0.0"
+        version: '^8.1'
+    redaxo: ^5.17.0
+    media_manager: "^2.1.0"
+    yrewrite: "^2.10.0"
 
 pages:
     media_manager/thumb:
