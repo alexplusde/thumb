@@ -1,5 +1,5 @@
 <?php
-#
+
 $addon = rex_addon::get('thumb');
 
 $form = rex_config_form::factory($addon->getName());

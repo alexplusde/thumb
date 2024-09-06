@@ -13,7 +13,7 @@ requires:
         yrewrite: "^2.10.0"
 
 pages:
-    media_manager/thumb:
+    yrewrite/thumb:
         title: translate:thumb_title
         icon: rex-icon fa-file-image
         subpages:

@@ -37,8 +37,8 @@ class Thumb
      */
     public static function getConfig(string $key, string $vartype = 'string', mixed $default = ''): mixed
     {
-        if (rex_config::has('wenns_sein_muss', $key)) {
-            return \rex_type::cast(rex_config::get('wenns_sein_muss', $key), $vartype);
+        if (rex_config::has('thumb', $key)) {
+            return \rex_type::cast(rex_config::get('thumb', $key), $vartype);
         }
 
         if ('' === $default) {
