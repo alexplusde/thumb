@@ -5,10 +5,10 @@ thumb_docs = Hilfe
 
 thumb_config = Einstellungen
 
-thumb_config_hcti_username_label = HTCI-Username
+thumb_config_hcti_username_label = HCTI-Username
 thumb_config_hcti_username_notice = https://hcti.io/
 
-thumb_config_hcti_api_key_label = HTCI API-Schlüssel
+thumb_config_hcti_api_key_label = HCTI API-Schlüssel
 thumb_config_hcti_api_key_notice = https://hcti.io/
 
 
