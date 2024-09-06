@@ -9,3 +9,5 @@ if (!rex_media::get('thumb_bg.png')) {
         'file' => ['name' => "thumb_bg.png",
             'path' => rex_path::addon('thumb', '/media/thumb_bg.png')]]);
 }
+
+rex_dir::create(rex_path::addonCache('thumb'));
