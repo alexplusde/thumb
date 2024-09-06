@@ -19,6 +19,9 @@ pages:
             settings:
                 title: translate:thumb_config
                 icon: rex-icon fa-cog
+            history:
+                title: translate:thumb_history
+                icon: rex-icon fa-history
             docs:
                 title: translate:thumb_docs
                 subPath: README.md
