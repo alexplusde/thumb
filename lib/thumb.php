@@ -113,7 +113,7 @@ class Thumb
                 }
             }
         } catch(rex_socket_exception $e) {
-            $e->getMessage();
+            \rex_logger::factory()->notice($e->getMessage());
         }
         return '';
     }
