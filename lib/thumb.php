@@ -10,9 +10,15 @@ use rex_url;
 use rex_socket_exception;
 use rex_path;
 
+use Url\Url;
+use Url\Seo;
 
 class Thumb
 {
+
+    const WIDTH = 1200;
+    const HEIGHT = 630;
+
     public static function setConfig(?string $key, $value = null) :void
     {
         rex_config::set('thumb', $key, $value);
@@ -22,9 +28,9 @@ class Thumb
         return rex_config::get('thumb', $key);
     }
 
-    public static function getUrl(?string $url) :string
+    public static function getThumbUrl(?string $url) :string
     {
-        $file = rex_file::get(rex_path::addonCache('thumb', self::generateFilename($url)));
+        $file = rex_file::get(rex_path::addonData('thumb', self::generateFilename($url)));
 
         if (null === $file) {
             if (self::getConfig('api') == "hcti") {
@@ -38,23 +44,17 @@ class Thumb
         return $frontend_url;
     }
 
-    private static function getImgFromHtciApi(?string $url) :void
+    private static function getImgFromHtciApi(string $source_url, string $html = '') :string
     {
         try {
             $socket = rex_socket::factory('hcti.io', 443, true);
             $socket->setPath('/v1/image');
             
-
-            $fragment = new rex_fragment();
-            $fragment->setVar('url', $url);
-            $fragment->setVar('description', "My Description");
-
             $data = [];
-            $data['html'] = $fragment->parse('thumb/html.php');
-            // $data['url'] = $url;
+            $data['html'] = $html;
             $data['selector'] = 'main';
-            $data['viewport_width'] = 1200;
-            $data['viewport_height'] = 600;
+            $data['viewport_width'] = self::WIDTH;
+            $data['viewport_height'] = self::HEIGHT;
 
             $socket->addBasicAuthorization(self::getConfig('hcti_username'), self::getConfig('hcti_api_key'));
             
@@ -62,33 +62,53 @@ class Thumb
 
             if ($response->isOk()) {
                 $body = json_decode($response->getBody(), true);
-                self::saveImg($body['url'], $url);
+                self::saveImg($body['url'], $source_url);
+                return self::getThumbUrl($source_url);
             }
         } catch(rex_socket_exception $e) {
             $e->getMessage();
         }
+        return '';
     }
-    private static function getImgFromH2inApi(?string $url) :void
+    private static function getImgFromH2inApi(string $source_url, string $html = '') :string
     {
         try {
             $socket = rex_socket::factory('www.html2image.net/', 443, true);
-            $socket->setPath('/api/api.php?key='.self::getConfig('h2in_api_key').'&source='.$url.'&type=png&width=1200&height=600');
+            $socket->setPath('/api/api.php?key='.self::getConfig('h2in_api_key').'&source='.$source_url.'&type=png&width='.self::WIDTH.'&height='.self::HEIGHT);
             
             $response = $socket->doGet();
 
             if ($response->isOk()) {
                 $body = $response->getBody();
-                self::saveImg($body['url'], rex_path::addonCache('thumb', self::generateFilename($url)));
+                self::saveImg($body['url'], rex_path::addonData('thumb', self::generateFilename($source_url)));
+                return self::getThumbUrl($source_url);
             }
         } catch(rex_socket_exception $e) {
             $e->getMessage();
         }
+        return '';
     }
-    private static function saveImg($img_url, ?string $url) :void
+
+    private static function getImgFromApi(string $content = '', string $url) :string {
+        /* Existiert das Bild bereits? */
+
+        if (rex_file::get(rex_path::addonData('thumb', self::generateFilename($url)))) {
+            return self::getThumbUrl($url);
+        }
+        if(self::getConfig('api') == "hcti") {
+            return self::getImgFromHtciApi($url, $content);
+        } elseif(self::getConfig('api') == "h2in") {
+            return self::getImgFromH2inApi($url, $content);
+        }
+        return '';
+    }
+
+    private static function saveImg($img_url, string $url) :void
     {
         $image = rex_socket::factoryUrl($img_url)->doGet();
-        $image->writeBodyTo(rex_path::addonCache('thumb', self::generateFilename($url)));
+        $image->writeBodyTo(rex_path::addonData('thumb', self::generateFilename($url)));
     }
+
     private static function generateFilename(?string $url, $extension = ".png") :string
     {
         return md5($url).$extension;
@@ -97,11 +117,68 @@ class Thumb
     public static function epArtUpdated($ep)
     {
         $params = $ep->getParams();
-        // rex_file::delete(rex_path::addonCache('thumb', self::generateFilename($params['article']->getUrl())));
+        // rex_file::delete(rex_path::addonData('thumb', self::generateFilename($params['article']->getUrl())));
     }
     public static function epCatUpdated($ep)
     {
         $params = $ep->getParams();
-        // rex_file::delete(rex_path::addonCache('thumb', self::generateFilename($params['category']->getUrl())));
+        // rex_file::deleteEpUrlSeoTagsddonData('thumb', self::generateFilename($params['category']->getUrl())));
+    }
+    public static function EpUrlSeoTags($ep)
+    {
+        /* outputfilter leeren / flushen */
+        ob_end_clean();
+
+        $manager = Url::resolveCurrent();
+
+        if ($manager) {
+            $article = \rex_article::getCurrent();
+            $tags = $ep->getSubject();
+            $seo = $manager->getSeo();
+
+            /* Titel identifizieren */
+            $title = strip_tags($tags['title']);
+            if ($manager->getSeoTitle()) {
+                $titleValues[] = $manager->getSeoTitle();
+            }
+
+            /* Beschreibung */
+            $description = $article->getValue('yrewrite_description');
+            if($manager->getSeoDescription()) {
+                $description = $manager->getSeoDescription();
+            }
+            if ($article) {
+                $domain = \rex_yrewrite::getDomainByArticleId($article->getId());
+                $title = $domain->getTitle();
+            }
+
+            $image = self::getConfig('background_image');
+            $media = null;
+            if ($image) {
+                $media = \rex_media::get($image);
+            }
+
+            /* Fragment laden und befüllen */
+            $result = '';
+            $fragment = new rex_fragment();
+            $fragment->setVar('title', $title, false);
+            $fragment->setVar('description', $description, false);
+            $fragment->setVar('url', $manager->getValue('url'), false);
+            if($media) {
+                $fragment->setVar('image', $media->getUrl(), false);
+            }
+            $fragment->setVar('site_name', $title, false);
+            if(self::getConfig('fragment')) {
+                $result = $fragment->parse(self::getConfig('fragment'));
+            }
+
+            $og_image_url = self::getImgFromApi($result, $manager->getValue('url'));
+
+            $tags['og:image'] = '<meta property="og:image" content="'.$og_image_url.'" />';
+            $tags['og:image:width'] = '<meta property="og:image:width" content="'.self::WIDTH.'" />';
+            $tags['og:image:height'] = '<meta property="og:image:height" content="'.self::HEIGHT.'" />';
+
+            $ep->setSubject($tags);
+        }
     }
 }
