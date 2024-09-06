@@ -11,7 +11,6 @@ use rex_socket_exception;
 use rex_path;
 
 use Url\Url;
-use Url\Seo;
 
 class Thumb
 {
@@ -61,7 +60,7 @@ class Thumb
             $response = $socket->doPost($data);
 
             if ($response->isOk()) {
-                $body = json_decode($response->getBody(), true);
+                $body = json_decode($response->getBody(), true);    
                 self::saveImg($body['url'], $source_url);
                 return self::getThumbUrl($source_url);
             }
@@ -103,10 +102,10 @@ class Thumb
         return '';
     }
 
-    private static function saveImg($img_url, string $url) :void
+    private static function saveImg($img_url, string $frontend_url) :void
     {
         $image = rex_socket::factoryUrl($img_url)->doGet();
-        $image->writeBodyTo(rex_path::addonData('thumb', self::generateFilename($url)));
+        $image->writeBodyTo(rex_path::addonData('thumb', self::generateFilename($frontend_url)));
     }
 
     private static function generateFilename(?string $url, $extension = ".png") :string
@@ -124,61 +123,68 @@ class Thumb
         $params = $ep->getParams();
         // rex_file::deleteEpUrlSeoTagsddonData('thumb', self::generateFilename($params['category']->getUrl())));
     }
-    public static function EpUrlSeoTags($ep)
+    public static function EpSeoTags($ep)
     {
-        /* outputfilter leeren / flushen */
-        ob_end_clean();
+        /* Zum Debuggen: OutputFilter leeren / flushen, um dump() sehen zu können */
+        // ob_end_clean();
 
+        /* Grundvoraussetzungen */
+        $article = \rex_article::getCurrent();
+        $domain = \rex_yrewrite::getDomainByArticleId($article->getId());
+        $website = $domain->getTitle();
+        $fragment = new rex_fragment();
+        $tags = $ep->getSubject();
+        $title = strip_tags($tags['title']);
+        $description = $article->getValue('yrewrite_description');
+        $image = $article->getValue('yrewrite_image');
+        $media = null;
+        if($image) {
+            $media = \rex_media::get($image);
+        }
+
+        $background_image = self::getConfig('background_image');
+        $background_media = null;
+        if ($background_image) {
+            $background_media = \rex_media::get($background_image);
+        }
+
+        /* URL-Addon übertrumpft YRewrite */
         $manager = Url::resolveCurrent();
-
         if ($manager) {
-            $article = \rex_article::getCurrent();
-            $tags = $ep->getSubject();
-            $seo = $manager->getSeo();
+            // $seo = $manager->getSeo();
 
-            /* Titel identifizieren */
-            $title = strip_tags($tags['title']);
             if ($manager->getSeoTitle()) {
-                $titleValues[] = $manager->getSeoTitle();
+                $title = $manager->getSeoTitle();
             }
 
-            /* Beschreibung */
-            $description = $article->getValue('yrewrite_description');
             if($manager->getSeoDescription()) {
                 $description = $manager->getSeoDescription();
             }
-            if ($article) {
-                $domain = \rex_yrewrite::getDomainByArticleId($article->getId());
-                $title = $domain->getTitle();
-            }
-
-            $image = self::getConfig('background_image');
-            $media = null;
-            if ($image) {
-                $media = \rex_media::get($image);
-            }
-
-            /* Fragment laden und befüllen */
-            $result = '';
-            $fragment = new rex_fragment();
-            $fragment->setVar('title', $title, false);
-            $fragment->setVar('description', $description, false);
-            $fragment->setVar('url', $manager->getValue('url'), false);
-            if($media) {
-                $fragment->setVar('image', $media->getUrl(), false);
-            }
-            $fragment->setVar('site_name', $title, false);
-            if(self::getConfig('fragment')) {
-                $result = $fragment->parse(self::getConfig('fragment'));
-            }
-
-            $og_image_url = self::getImgFromApi($result, $manager->getValue('url'));
-
-            $tags['og:image'] = '<meta property="og:image" content="'.$og_image_url.'" />';
-            $tags['og:image:width'] = '<meta property="og:image:width" content="'.self::WIDTH.'" />';
-            $tags['og:image:height'] = '<meta property="og:image:height" content="'.self::HEIGHT.'" />';
-
-            $ep->setSubject($tags);
         }
+
+        $result = '';
+        $fragment->setVar('title', $title, false);
+        $fragment->setVar('description', $description, false);
+        $fragment->setVar('url', $manager->getValue('url'), false);
+
+        if($media) {
+            $fragment->setVar('image', $media->getUrl(), false);
+        }
+        if($background_media) {
+            $fragment->setVar('background_image', $background_media->getUrl(), false);
+        }
+        $fragment->setVar('website', $website, false);
+        if(self::getConfig('fragment')) {
+            $result = $fragment->parse(self::getConfig('fragment'));
+        }
+
+        $og_image_url = self::getImgFromApi($result, $manager->getValue('url'));
+
+        $tags['og:image'] = '<meta property="og:image" content="'.$og_image_url.'" />';
+        $tags['og:image:width'] = '<meta property="og:image:width" content="'.self::WIDTH.'" />';
+        $tags['og:image:height'] = '<meta property="og:image:height" content="'.self::HEIGHT.'" />';
+
+        $ep->setSubject($tags);
+
     }
 }
