@@ -1,5 +1,17 @@
 <?php
-class thumb
+
+namespace Alexplusde\Thumb;
+
+use rex_config;
+use rex_file;
+use rex_fragment;
+use rex_socket;
+use rex_url;
+use rex_socket_exception;
+use rex_path;
+
+
+class Thumb
 {
     public static function setConfig(?string $key, $value = null) :void
     {
@@ -66,7 +78,7 @@ class thumb
 
             if ($response->isOk()) {
                 $body = $response->getBody();
-                self::saveImg($body['url']);
+                self::saveImg($body['url'], rex_path::addonCache('thumb', self::generateFilename($url)));
             }
         } catch(rex_socket_exception $e) {
             $e->getMessage();
@@ -82,12 +94,12 @@ class thumb
         return md5($url).$extension;
     }
 
-    public static function ep_art_updated($ep)
+    public static function epArtUpdated($ep)
     {
         $params = $ep->getParams();
         // rex_file::delete(rex_path::addonCache('thumb', self::generateFilename($params['article']->getUrl())));
     }
-    public static function ep_cat_updated($ep)
+    public static function epCatUpdated($ep)
     {
         $params = $ep->getParams();
         // rex_file::delete(rex_path::addonCache('thumb', self::generateFilename($params['category']->getUrl())));

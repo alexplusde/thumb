@@ -1,3 +1,6 @@
+<?php
+use Alexplusde\Thumb\Thumb;
+?>
 <html class="no-js" lang="">
 
 <head>
@@ -28,7 +31,7 @@
 
 		.img {
 			background-repeat: no-repeat;
-			background-scale: cover;
+			background-size: cover;
 		}
 
 		.favicon {
@@ -90,7 +93,7 @@
 <body>
 	<?php $article = rex_article::getCurrent(); ?>
 	<main
-		style="background: <?= rex_url::media(thumb::getConfig('background_image')) ?>">
+		style="background: <?= rex_url::media(Thumb::getConfig('background_image')) ?>">
 		<div class="img favicon"
 			style="background: <?= $this->getVar('favicon') ?? rex::getServer() . '/favicon.ico'  ?>">
 		</div>
