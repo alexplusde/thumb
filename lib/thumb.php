@@ -31,9 +31,15 @@ class Thumb
     {
         if (null === $url) {
             $url = \rex_article::getCurrent()->getUrl();
+
+            $manager = Url::resolveCurrent();
+            if ($manager) {
+                    $url = $manager->getValue('url');
+            }
         }
 
-        $file = rex_file::get(rex_path::addonData('thumb', self::generateFilename($url)));
+        $filename = self::generateFilename($url);
+        $file = rex_file::get(rex_path::addonData('thumb', $filename));
 
         if (null === $file) {
             if (self::getConfig('api') == "hcti") {
@@ -42,7 +48,7 @@ class Thumb
                 self::getImgFromH2inApi($url);
             }
         }
-        $frontend_url = rex_url::media(self::getConfig('media_manager_profile').'/'.self::generateFilename($url));
+        $frontend_url = rex_url::media(self::getConfig('media_manager_profile').'/'.$filename);
 
         return $frontend_url;
     }
@@ -76,10 +82,15 @@ class Thumb
     private static function getImgFromH2inApi(string $source_url, string $html = '') :string
     {
         try {
-            $socket = rex_socket::factory('www.html2image.net/', 443, true);
-            $socket->setPath('/api/api.php?key='.self::getConfig('h2in_api_key').'&source='.$source_url.'&type=png&width='.self::WIDTH.'&height='.self::HEIGHT);
+                
+            $socket = rex_socket::factory('www.html2image.net', 443, true);
+            $socket->setPath('/api/api.php?key=' . self::getConfig('h2in_api_key') . '&type=png&width=' . self::WIDTH . '&height=' . self::HEIGHT);
             
-            $response = $socket->doGet();
+            $postData = [
+                'source' => $html
+            ];
+            
+            $response = $socket->doPost($postData);
 
             if ($response->isOk()) {
                 $body = $response->getBody();
@@ -109,7 +120,14 @@ class Thumb
     private static function saveImg($img_url, string $frontend_url) :void
     {
         $image = rex_socket::factoryUrl($img_url)->doGet();
-        $image->writeBodyTo(rex_path::addonData('thumb', self::generateFilename($frontend_url)));
+        $image_path = rex_path::addonData('thumb', self::generateFilename($frontend_url));
+        $image->writeBodyTo($image_path);
+    
+        // Komprimierung des PNG-Bildes
+        $im = imagecreatefrompng($image_path);
+        $quality = 8; // 0 - 9 (0 = keine Komprimierung, 9 = hohe Komprimierung)
+        imagepng($im, $image_path, $quality); // Speichern des komprimierten Bildes
+        imagedestroy($im);
     }
 
     private static function generateFilename(?string $url, $extension = ".png") :string
@@ -143,7 +161,7 @@ class Thumb
         if ($background_image) {
             $background_media = \rex_media::get($background_image);
         }
-        $url = $article->getUrl();
+        $url = \rex_yrewrite::getFullUrlByArticleId(\rex_article::getCurrentId());
 
         /* URL-Addon übertrumpft YRewrite */
         $manager = Url::resolveCurrent();
