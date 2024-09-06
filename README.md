@@ -31,13 +31,13 @@ Template:
 
 Ausgabe:
 
-```
+```html
 <meta property="og:image" content="https://www.example.org/media/thumb/11c04adc200effba3c7479688f20e7da.png"/>
 ```
 
 ### Vorlagen
 
-Enthält Fragmente für REDAXO im SVG und HTML-Format für einen einfachen Einstieg. 
+Enthält Fragmente für REDAXO im SVG und HTML-Format für einen einfachen Einstieg.
 
 > **Tipp:** Die Fragmente können bspw. über eine Kopie project-Addon überschrieben werden, kopiere dazu aus dem `thumb`-Addon-Verzeichnis das Fragment `redaxo/src/addons/thumb/fragments/thumb/html.php` in das Verzeichnis `redaxo/src/addons/project/fragments/thumb/html.php`
 
