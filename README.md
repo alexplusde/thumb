@@ -27,12 +27,16 @@ Template:
 ```php
 <?php $og_image_url = thumb::getUrl(rex_getUrl()); ?>
 <meta property="og:image" content="<?= $og_image_url ?>"/>
+<meta property="og:image:width" content="1200"/>
+<meta property="og:image:height" content="630"/>
 ```
 
 Ausgabe:
 
 ```html
 <meta property="og:image" content="https://www.example.org/media/thumb/11c04adc200effba3c7479688f20e7da.png"/>
+<meta property="og:image:width" content="1200"/>
+<meta property="og:image:height" content="630"/>
 ```
 
 ### Vorlagen
@@ -41,7 +45,7 @@ Enthält Fragmente für REDAXO im SVG und HTML-Format für einen einfachen Einst
 
 > **Tipp:** Die Fragmente können bspw. über eine Kopie project-Addon überschrieben werden, kopiere dazu aus dem `thumb`-Addon-Verzeichnis das Fragment `redaxo/src/addons/thumb/fragments/thumb/html.php` in das Verzeichnis `redaxo/src/addons/project/fragments/thumb/html.php`
 
-Benutze die Design-Vorlage im Affinity-2-Format `/docs/thumbnail-template.afpub` als Ausgangspunkt für eine eigene SVG-Vorlage mit den Abmaßen 1200x600px.
+Benutze die Design-Vorlage im Affinity-2-Format `/docs/thumbnail-template.afpub` als Ausgangspunkt für eine eigene SVG-Vorlage mit den Abmaßen 1200x630px.
 
 ### Einstellungs-Seite
 
