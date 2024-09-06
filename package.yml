@@ -8,7 +8,8 @@ requires:
     php:
         version: '>7.3,<9'
     redaxo: ^5.13
-    media_manager: ">1"
+    media_manager: ">1.0.0"
+    yrewrite: ">2.0.0"
 
 page:
     title: translate:thumb_title
