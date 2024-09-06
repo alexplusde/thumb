@@ -1,11 +1,13 @@
 <?php
 
-/* Zeige die letzten 50 Bilder aus dem Cache-Ordner mit dem korrekten Mediamanager-Bildprofil */
+/* Zeige die letzten 50 Bilder aus dem Data-Ordner mit dem korrekten Mediamanager-Bildprofil */
 
-$dir = rex_path::addonCache('thumb');
+use Alexplusde\Thumb\Thumb;
+
+$dir = rex_path::addonData('thumb');
 $files = scandir($dir, SCANDIR_SORT_DESCENDING);
 if($files === false) {
-    echo rex_view::error(rex_i18n::msg('thumb_cache_empty'));
+    echo rex_view::error(rex_i18n::msg('thumb_data_empty'));
     return;
 }
 $files = array_diff($files, array('..', '.'));
@@ -15,8 +17,8 @@ $files = array_slice($files, 0, 50);
 $output = '<div class="row">';
 $col = 0;
 foreach ($files as $file) {
-    $file = rex_media_manager::getUrl($file, 'thumb');
-    $output .= '<div class="col-md-2"><img src="' . $file . '"></div>';
+    $file = rex_media_manager::getUrl(\Alexplusde\Thumb\Thumb::getConfig('media_manager_profile'), $file);
+    $output .= '<div class="col-md-3"><img src="' . $file . '" class="img-thumbnail"></div>';
     $col++;
     if ($col % 4 == 0) {
         $output .= '</div><div class="row">';
