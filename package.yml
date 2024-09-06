@@ -1,31 +1,29 @@
 package: thumb
-version: '1.0-alpha1'
+version: '0.0.4'
 author: 'Alexander Walther'
 supportpage: https://github.com/alexplusde/thumb
 
 
 requires:
     php:
-        version: '>7.3,<9'
-    redaxo: ^5.13
+        version: '>8.1,<9'
+    redaxo: ^5.17
     media_manager: ">1.0.0"
     yrewrite: ">2.0.0"
 
-page:
-    title: translate:thumb_title
-    icon: rex-icon fa-gear
-
 pages:
-    settings:
-        title: translate:thumb_config
-        icon: rex-icon fa-gear
-        perm: thumb
-    docs:
-        title: translate:thumb_docs
-        subPath: README.md
-        icon: rex-icon fa-info-circle
-        itemclass: pull-right
-        perm: thumb[docs]
+    media_manager/thumb:
+        title: translate:thumb_title
+        icon: rex-icon fa-file-image
+        subpages:
+            settings:
+                title: translate:thumb_config
+                icon: rex-icon fa-cog
+            docs:
+                title: translate:thumb_docs
+                subPath: README.md
+                icon: rex-icon fa-info-circle
+                itemclass: pull-right
 
 default_config:
     api: 'hcti'
