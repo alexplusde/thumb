@@ -2,7 +2,7 @@
 #
 $addon = rex_addon::get('thumb');
 
-$form = rex_config_form::factory($addon->name);
+$form = rex_config_form::factory($addon->getName());
 
 $field = $form->addSelectField('bestellung', $value = null, ['class'=>'form-control selectpicker']);
 $field->setLabel("Anbieter");
@@ -43,7 +43,7 @@ $select->addOption('thumb/svg.php', 'thumb/svg.php');
 
 
 $field = $form->addMediaField('background_image');
-$field->setPreview(1);
+$field->setPreview(true);
 // Legt die erlaubten Typen fest
 $field->setTypes('jpg,gif,png,svg');
 $field->setLabel('Bild');

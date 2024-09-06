@@ -1,6 +1,6 @@
 <?php
 
-if (!rex_media::get('thumb_bg.png')) {
+if (rex_media::get('thumb_bg.png') instanceof rex_media) {
     /* Neue Methode addMedia() verwenden */
     return rex_media_service::addMedia([
         'category_id' => 0,

@@ -8,8 +8,9 @@ requires:
     php:
         version: '^8.1'
     redaxo: ^5.17.0
-    media_manager: "^2.1.0"
-    yrewrite: "^2.10.0"
+    packages:
+        media_manager: "^2.1.0"
+        yrewrite: "^2.10.0"
 
 pages:
     media_manager/thumb:
@@ -26,7 +27,7 @@ pages:
                 title: translate:thumb_docs
                 subPath: README.md
                 icon: rex-icon fa-info-circle
-                itemclass: pull-right
+                itemClass: pull-right
 
 default_config:
     api: 'hcti'

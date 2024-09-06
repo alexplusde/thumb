@@ -17,11 +17,14 @@ $files = array_slice($files, 0, 50);
 $output = '<div class="row">';
 $col = 0;
 foreach ($files as $file) {
-    $file = rex_media_manager::getUrl(\Alexplusde\Thumb\Thumb::getConfig('media_manager_profile'), $file);
-    $output .= '<div class="col-md-3"><img src="' . $file . '" class="img-thumbnail"></div>';
-    $col++;
-    if ($col % 4 == 0) {
-        $output .= '</div><div class="row">';
+    $profile = \Alexplusde\Thumb\Thumb::getConfig('media_manager_profile');
+    if(is_string($profile)) {
+        $file = rex_media_manager::getUrl($profile, $file);
+        $output .= '<div class="col-md-3"><img src="' . $file . '" class="img-thumbnail"></div>';
+        $col++;
+        if ($col % 4 === 0) {
+            $output .= '</div><div class="row">';
+        }
     }
 }
 $output .= '</div>';

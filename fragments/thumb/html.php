@@ -1,7 +1,14 @@
 <?php
 use Alexplusde\Thumb\Thumb;
-$data = file_get_contents(rex_path::media(Thumb::getConfig('background_image')));
-$background_image = 'data:image/png;base64,' . base64_encode($data);
+$background_image = '';
+$background_image_config = Thumb::getConfig('background_image');
+$data = '';
+if(is_string($background_image_config)) {
+	$data = file_get_contents(rex_path::media($background_image_config));
+}
+if($data !== '' && $data !== false) {
+	$background_image = 'data:image/png;base64,' . base64_encode($data);
+}
 ?>
 <html class="no-js" lang="">
 
@@ -94,7 +101,10 @@ $background_image = 'data:image/png;base64,' . base64_encode($data);
 </head>
 
 <body>
-	<?php $article = rex_article::getCurrent(); ?>
+	<?php 
+		$article = rex_article::getCurrent();
+		/** @var rex_article $article */
+	?>
 	<main>
 		<div class="img favicon"
 			style="background: <?= $this->getVar('favicon') ?? rex::getServer() . '/favicon.ico'  ?>">
