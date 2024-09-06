@@ -30,5 +30,5 @@ default_config:
     hcti_username: ''
     hcti_api_key: ''
     h2in_api_key: ''
-    media_manager_profile: 'yrewrite_seo_image'
+    media_manager_profile: 'thumb'
     background_image: 'thumb_bg.png'
