@@ -107,7 +107,7 @@ class Thumb
 
             if ($response->isOk()) {
                 $body = json_decode($response->getBody(), true);
-                if(isset($body['url'])) {
+                if(is_array($body) && isset($body['url'])) {
                     self::saveImg($body['url'], $source_url);
                     return self::getThumbUrl($source_url);
                 }
@@ -138,7 +138,7 @@ class Thumb
 
             if ($response->isOk()) {
                 $body = json_decode($response->getBody(), true);
-                if(isset($body['url'])) {
+                if(is_array($body) && isset($body['url'])) {
                     self::saveImg($body['url'], rex_path::addonData('thumb', self::generateFilename($source_url)));
                     return self::getThumbUrl($source_url);
                 }
@@ -192,7 +192,7 @@ class Thumb
     public static function epStructureUpdated(\rex_extension_point $ep) :void
     {
         $params = $ep->getParams();
-        $url = rex_getUrl($params['id']);
+        $url = rex_getUrl((int)$params['id']);
         rex_file::delete(rex_path::addonData('thumb', self::generateFilename($url)));
     }
     /**
