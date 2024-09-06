@@ -1,12 +1,14 @@
 <?php
 use Alexplusde\Thumb\Thumb;
+$data = file_get_contents(rex_path::media(Thumb::getConfig('background_image')));
+$background_image = 'data:image/png;base64,' . base64_encode($data);
 ?>
 <html class="no-js" lang="">
 
 <head>
 	<meta charset="utf-8">
 	<title></title>
-	<meta name="viewport" content="width=1200, height=600, initial-scale=1">
+	<meta name="viewport" content="width=1200, height=630, initial-scale=1">
 	<style>
 		* {
 			font-family: sans-serif;
@@ -19,9 +21,10 @@ use Alexplusde\Thumb\Thumb;
 
 		main {
 			width: 1200px;
-			height: 600px;
+			height: 630px;
 			position: relative;
-			background: cover;
+			background-size: cover;
+			background-image: url('<?= $background_image ?>')
 		}
 
 		main>div {
@@ -92,8 +95,7 @@ use Alexplusde\Thumb\Thumb;
 
 <body>
 	<?php $article = rex_article::getCurrent(); ?>
-	<main
-		style="background: <?= rex_url::media(Thumb::getConfig('background_image')) ?>">
+	<main>
 		<div class="img favicon"
 			style="background: <?= $this->getVar('favicon') ?? rex::getServer() . '/favicon.ico'  ?>">
 		</div>
