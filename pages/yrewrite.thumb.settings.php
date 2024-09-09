@@ -21,9 +21,9 @@ $field = $form->addInputField('text', 'h2in_api_key', null, ["class" => "form-co
 $field->setLabel(rex_i18n::rawMsg('thumb_config_h2in_api_key_label'));
 $field->setNotice(rex_i18n::rawMsg('thumb_config_h2in_api_key_notice'));
 
-$field = $form->addSelectField('media_manager_profile', $value = null, ['class'=>'form-control selectpicker']);
-$field->setLabel(rex_i18n::msg('thumb_config_media_manager_profile_label'));
-$field->setNotice(rex_i18n::msg('thumb_config_media_manager_profile_notice'));
+$field = $form->addSelectField('media_manager_type', $value = null, ['class'=>'form-control selectpicker']);
+$field->setLabel(rex_i18n::msg('thumb_config_media_manager_type_label'));
+$field->setNotice(rex_i18n::msg('thumb_config_media_manager_type_notice'));
 $select = $field->getSelect();
 
 // Get available media manager profiles

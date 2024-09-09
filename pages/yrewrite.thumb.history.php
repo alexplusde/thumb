@@ -34,7 +34,7 @@ $files = array_slice($files, 0, 50);
 /* HTML-Bootstrap 3 Grid erzeugen */
 $output = '<div class="row">';
 $col = 0;
-$profile = Thumb::getConfig('media_manager_profile', 'string', '');
+$profile = Thumb::getConfig('media_manager_type', 'string', '');
 
 foreach ($files as $file) {
     if (is_string($profile)) {

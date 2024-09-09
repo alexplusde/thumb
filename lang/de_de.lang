@@ -16,8 +16,8 @@ thumb_config_fragment_label = HTML oder SVG?
 thumb_config_h2in_api_key_label = H2IN API-Schlüssel
 thumb_config_h2in_api_key_notice = https://www.html2image.net/
 
-thumb_config_media_manager_profile_label = Medien-Manager-Profil
-thumb_config_media_manager_profile_notice = Profil, das den Pfad-Effekt beinhaltet und auf das Data-Verzeichnis zeigt. Üblicherweise: <code>/redaxo/data/addons/thumb/</code>
+thumb_config_media_manager_type_label = Medien-Manager-Profil
+thumb_config_media_manager_type_notice = Profil, das den Pfad-Effekt beinhaltet und auf das Data-Verzeichnis zeigt. Üblicherweise: <code>/redaxo/data/addons/thumb/</code>
 
 thumb_delete = Löschen
 thumb_delete_confirm = Sollen alle Bilder wirklich gelöscht werden? 

@@ -35,5 +35,5 @@ default_config:
     hcti_api_key: ''
     h2in_api_key: ''
     fragment: 'thumb/html.php'
-    media_manager_profile: 'thumb'
+    media_manager_type: 'thumb'
     background_image: 'thumb_bg.png'
