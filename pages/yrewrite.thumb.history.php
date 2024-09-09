@@ -20,14 +20,15 @@ if ('' !== $func) {
 $button = '<a class="btn btn-danger btn-sm pull-right" href="' . rex_url::currentBackendPage(['func' => 'delete'] + $csrf->getUrlParams()) . '" data-confirm="' . rex_i18n::msg('thumb_delete_confirm') . '">' . rex_i18n::msg('thumb_delete') . '</a>';
 
 /* Zeige die letzten 50 Bilder aus dem Data-Ordner mit dem korrekten Mediamanager-Bildprofil */
-
 $dir = rex_path::addonData('thumb');
-$files = scandir($dir, SCANDIR_SORT_DESCENDING);
-if($files === false) {
+$files = array_diff(scandir($dir, SCANDIR_SORT_DESCENDING), ['..', '.']);
+
+if (empty($files)) {
     echo rex_view::error(rex_i18n::msg('thumb_data_empty'));
     return;
 }
-$files = array_diff($files, array('..', '.'));
+
+usort($files, fn($a, $b) => filemtime("$dir/$b") - filemtime("$dir/$a"));
 $files = array_slice($files, 0, 50);
 
 /* HTML-Bootstrap 3 Grid erzeugen */
@@ -36,9 +37,16 @@ $col = 0;
 $profile = Thumb::getConfig('media_manager_profile', 'string', '');
 
 foreach ($files as $file) {
-    if(is_string($profile)) {
-        $file = rex_media_manager::getUrl($profile, $file);
-        $output .= '<div class="col-md-3"><img src="' . $file . '" class="img-thumbnail"></div>';
+    if (is_string($profile)) {
+        $filePath = rex_path::addonData('thumb') . DIRECTORY_SEPARATOR . $file;
+        $fileUrl = rex_media_manager::getUrl($profile, $file);
+        $fileDate = date("Y-m-d H:i:s", filemtime($filePath));
+        
+        $output .= '<div class="col-md-3">';
+        $output .= '<img src="' . $fileUrl . '" class="img-thumbnail">';
+        $output .= '<p>'. $fileDate . '</p>';
+        $output .= '</div>';
+        
         $col++;
         if ($col % 4 === 0) {
             $output .= '</div><div class="row">';
