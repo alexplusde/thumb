@@ -77,7 +77,8 @@ class Thumb
                 self::getImgFromH2inApi($url);
             }
         }
-        $frontend_url = rex_url::media(). self::getConfig('media_manager_profile', 'string', '').'/'.$filename;
+        $timestamp = filemtime($file);
+        $frontend_url = rex_url::media(). self::getConfig('media_manager_profile', 'string', '').'/'.$filename.'?timestamp='.$timestamp;
 
         return $frontend_url;
     }
