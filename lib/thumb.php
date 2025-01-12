@@ -77,7 +77,7 @@ class Thumb
                 self::getImgFromH2inApi($url);
             }
         }
-        $timestamp = filemtime($file);
+        $timestamp = @filemtime($file);
         $frontend_url = rex_url::media(). self::getConfig('media_manager_type', 'string', '').'/'.$filename.'?timestamp='.$timestamp;
 
         return $frontend_url;
